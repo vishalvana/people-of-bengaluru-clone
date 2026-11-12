@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Host: https://peopleofbengaluru.com
+Sitemap: https://peopleofbengaluru.com/sitemap.xml

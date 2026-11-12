@@ -1,0 +1,257 @@
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([
+  "object" == typeof document ? document.currentScript : void 0,
+  90317,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 });
+    var r = {
+      bindSnapshot: function () {
+        return s;
+      },
+      createAsyncLocalStorage: function () {
+        return a;
+      },
+      createSnapshot: function () {
+        return c;
+      },
+    };
+    for (var l in r) Object.defineProperty(n, l, { enumerable: !0, get: r[l] });
+    let o = Object.defineProperty(
+      Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available"),
+      "__NEXT_ERROR_CODE",
+      { value: "E504", enumerable: !1, configurable: !0 },
+    );
+    class u {
+      disable() {
+        throw o;
+      }
+      getStore() {}
+      run() {
+        throw o;
+      }
+      exit() {
+        throw o;
+      }
+      enterWith() {
+        throw o;
+      }
+      static bind(e) {
+        return e;
+      }
+    }
+    let i = "u" > typeof globalThis && globalThis.AsyncLocalStorage;
+    function a() {
+      return i ? new i() : new u();
+    }
+    function s(e) {
+      return i ? i.bind(e) : u.bind(e);
+    }
+    function c() {
+      return i
+        ? i.snapshot()
+        : function (e, ...t) {
+            return e(...t);
+          };
+    }
+  },
+  42344,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "workAsyncStorageInstance", {
+        enumerable: !0,
+        get: function () {
+          return r;
+        },
+      });
+    let r = (0, e.r(90317).createAsyncLocalStorage)();
+  },
+  63599,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "workAsyncStorage", {
+        enumerable: !0,
+        get: function () {
+          return r.workAsyncStorageInstance;
+        },
+      });
+    let r = e.r(42344);
+  },
+  9885,
+  (e, t, n) => {
+    "use strict";
+    function r(e) {
+      return e
+        .split("/")
+        .map((e) => encodeURIComponent(e))
+        .join("/");
+    }
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "encodeURIPath", {
+        enumerable: !0,
+        get: function () {
+          return r;
+        },
+      });
+  },
+  67585,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "BailoutToCSR", {
+        enumerable: !0,
+        get: function () {
+          return l;
+        },
+      });
+    let r = e.r(32061);
+    function l({ reason: e, children: t }) {
+      if ("u" < typeof window)
+        throw Object.defineProperty(new r.BailoutToCSRError(e), "__NEXT_ERROR_CODE", {
+          value: "E394",
+          enumerable: !1,
+          configurable: !0,
+        });
+      return t;
+    }
+  },
+  52157,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "PreloadChunks", {
+        enumerable: !0,
+        get: function () {
+          return a;
+        },
+      });
+    let r = e.r(43476),
+      l = e.r(74080),
+      o = e.r(63599),
+      u = e.r(9885),
+      i = e.r(43369);
+    function a({ moduleIds: e }) {
+      if ("u" > typeof window) return null;
+      let t = o.workAsyncStorage.getStore();
+      if (void 0 === t) return null;
+      let n = [];
+      if (t.reactLoadableManifest && e) {
+        let r = t.reactLoadableManifest;
+        for (let t of e) {
+          if (!r[t]) continue;
+          let e = r[t].files;
+          n.push(...e);
+        }
+      }
+      if (0 === n.length) return null;
+      let s = (0, i.getAssetTokenQuery)();
+      return (0, r.jsx)(r.Fragment, {
+        children: n.map((e) => {
+          let n = `${t.assetPrefix}/_next/${(0, u.encodeURIPath)(e)}${s}`;
+          return e.endsWith(".css")
+            ? (0, r.jsx)("link", { precedence: "dynamic", href: n, rel: "stylesheet", as: "style", nonce: t.nonce }, e)
+            : ((0, l.preload)(n, { as: "script", fetchPriority: "low", nonce: t.nonce }), null);
+        }),
+      });
+    }
+  },
+  69093,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "default", {
+        enumerable: !0,
+        get: function () {
+          return s;
+        },
+      });
+    let r = e.r(43476),
+      l = e.r(71645),
+      o = e.r(67585),
+      u = e.r(52157);
+    function i(e) {
+      return { default: e && "default" in e ? e.default : e };
+    }
+    let a = { loader: () => Promise.resolve(i(() => null)), loading: null, ssr: !0 },
+      s = function (e) {
+        let t = { ...a, ...e },
+          n = (0, l.lazy)(() => t.loader().then(i)),
+          s = t.loading;
+        function c(e) {
+          let i = s ? (0, r.jsx)(s, { isLoading: !0, pastDelay: !0, error: null }) : null,
+            a = !t.ssr || !!t.loading,
+            c = a ? l.Suspense : l.Fragment,
+            d = t.ssr
+              ? (0, r.jsxs)(r.Fragment, {
+                  children: [
+                    "u" < typeof window ? (0, r.jsx)(u.PreloadChunks, { moduleIds: t.modules }) : null,
+                    (0, r.jsx)(n, { ...e }),
+                  ],
+                })
+              : (0, r.jsx)(o.BailoutToCSR, { reason: "next/dynamic", children: (0, r.jsx)(n, { ...e }) });
+          return (0, r.jsx)(c, { ...(a ? { fallback: i } : {}), children: d });
+        }
+        return (c.displayName = "LoadableComponent"), c;
+      };
+  },
+  70703,
+  (e, t, n) => {
+    "use strict";
+    Object.defineProperty(n, "__esModule", { value: !0 }),
+      Object.defineProperty(n, "default", {
+        enumerable: !0,
+        get: function () {
+          return l;
+        },
+      });
+    let r = e.r(55682)._(e.r(69093));
+    function l(e, t) {
+      let n = {};
+      "function" == typeof e && (n.loader = e);
+      let l = { ...n, ...t };
+      return (0, r.default)({ ...l, modules: l.loadableGenerated?.modules });
+    }
+    ("function" == typeof n.default || ("object" == typeof n.default && null !== n.default)) &&
+      void 0 === n.default.__esModule &&
+      (Object.defineProperty(n.default, "__esModule", { value: !0 }),
+      Object.assign(n.default, n),
+      (t.exports = n.default));
+  },
+  23624,
+  (e) => {
+    "use strict";
+    var t = e.i(43476);
+    let n = (0, e.i(70703).default)(() => e.A(61542), {
+      loadableGenerated: { modules: [79232] },
+      ssr: !1,
+      loading: () =>
+        (0, t.jsx)("div", {
+          className: "boot",
+          children: (0, t.jsxs)("div", {
+            className: "intro-title",
+            children: [
+              (0, t.jsx)("div", { className: "intro-kicker", children: "PEOPLE OF" }),
+              (0, t.jsx)("h1", { children: "BENGALURU" }),
+              (0, t.jsx)("p", { children: "Walk the city. Meet the people who design it." }),
+            ],
+          }),
+        }),
+    });
+    e.s([
+      "default",
+      0,
+      function () {
+        return (0, t.jsx)(n, {});
+      },
+    ]);
+  },
+  61542,
+  (e) => {
+    e.v((t) =>
+      Promise.all(
+        ["static/immutable/chunks/1i7q061u1g5kn.js", "static/immutable/chunks/035vmpn0sfakj.js"].map((t) => e.l(t)),
+      ).then(() => t(79232)),
+    );
+  },
+]);
